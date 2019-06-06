@@ -37,17 +37,17 @@ public class Game
         salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
         
         // initialise room exits
-        inicio.setExits(null, pasilloCeldas, null, null,null);
-        pasilloCeldas.setExits(pasilloExterior, celdaVacia1, patioReclusos, inicio,celdaVacia2);
-        celdaVacia1.setExits(null, null, null, pasilloCeldas,null);
-        pasilloExterior.setExits(comedorReclusos, null, null, enfermeria,null);
-        comedorReclusos.setExits(null, null, pasilloExterior, null,null);
-        enfermeria.setExits(null, pasilloExterior, ventanaAbierta, null,null);
-        ventanaAbierta.setExits(enfermeria, null, salidaEnfermeria, null,null);
-        salidaEnfermeria.setExits(null, null, null, null,null);
-        patioReclusos.setExits(pasilloCeldas, tunelPatio, null, null,null);
-        tunelPatio.setExits(null, salidaPatio, null, patioReclusos,null);
-        salidaPatio.setExits(null, null, null, null,null);
+        inicio.setExits(null, pasilloCeldas, null, null, null, null);
+        pasilloCeldas.setExits(pasilloExterior, celdaVacia1, patioReclusos, inicio, null, celdaVacia2);
+        celdaVacia1.setExits(null, null, null, pasilloCeldas, null, null);
+        pasilloExterior.setExits(comedorReclusos, null, null, enfermeria, null, null);
+        comedorReclusos.setExits(null, null, pasilloExterior, null, null, null);
+        enfermeria.setExits(null, pasilloExterior, ventanaAbierta, null, null, null);
+        ventanaAbierta.setExits(enfermeria, null, salidaEnfermeria, null, null, null);
+        salidaEnfermeria.setExits(null, null, null, null, null, null);
+        patioReclusos.setExits(pasilloCeldas, tunelPatio, null, null, null, null);
+        tunelPatio.setExits(null, salidaPatio, null, patioReclusos, null, null);
+        salidaPatio.setExits(null, null, null, null, null, null);
 
         currentRoom = inicio;  // casilla de salida
     }
@@ -157,7 +157,6 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
             printLocationInfo();
         }
     }
