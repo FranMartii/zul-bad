@@ -13,6 +13,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        salidas = new HashMap<>();
     }
 
     /**
@@ -23,43 +24,13 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
-    public void setExits(Room north, Room east, Room south, Room west,Room surEste,Room norOeste) 
+    public void setExits(String direccion,Room neighbor) 
     {
-        if(north != null)
-            salidas.put("north", north);
-        if(east != null)
-            salidas.put("east", east);
-        if(south != null)
-            salidas.put("south", south);
-        if(west != null)
-            salidas.put("west", west);
-        if(surEste != null)
-            salidas.put("surEste", surEste);
-        if(norOeste != null)
-            salidas.put("norOeste", norOeste);
+        salidas.put(direccion, neighbor);
     }
 
-    public Room getExit(String descripccion){
-        Room salida = null;
-        if(descripccion.equals("north")){
-            salida = salidas.get("north");
-        }
-        if(descripccion.equals("south")){
-            salida = salidas.get("south");
-        }
-        if(descripccion.equals("east")){
-            salida = salidas.get("east");
-        }
-        if(descripccion.equals("west")){
-            salida = salidas.get("west");
-        }
-        if(descripccion.equals("sureste")){
-            salida = salidas.get("sureste");
-        }
-        if(descripccion.equals("noroeste")){
-            salida = salidas.get("noroeste");
-        }
-        return salida;
+    public Room getExit(String descripcion){
+        return salidas.get(descripcion);
     }
 
     /**
@@ -70,24 +41,9 @@ public class Room
      */
     public String getExitString(){
         String salidasExistentes = "Exits: ";
-        if(salidas.get("north") != null) {
-            salidasExistentes += "north ";
-        }
-        if(salidas.get("east") != null) {
-            salidasExistentes += "east ";
-        }
-        if(salidas.get("south") != null) {
-            salidasExistentes += "south ";
-        }
-        if(salidas.get("west") != null) {
-            salidasExistentes += "west ";
-        }
-        if(salidas.get("sureste") != null) {
-            salidasExistentes += "sureste ";
-        }
-        if(salidas.get("noroeste") != null) {
-            salidasExistentes += "noroeste ";
-        }
+        for(String i : salidas.keySet()){
+            salidasExistentes += i + " ";
+        }       
         return salidasExistentes;
     }
 
