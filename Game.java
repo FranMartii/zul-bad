@@ -18,14 +18,15 @@ public class Game
      */
     private void createRooms()
     {
-        Room inicio, pasilloCeldas, celdaVacia, pasilloExterior, 
+        Room inicio, pasilloCeldas, celdaVacia1,celdaVacia2, pasilloExterior, 
         comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
         patioReclusos,tunelPatio,salidaPatio;
       
         // create the rooms
         inicio = new Room("Tu celda de la prision");
         pasilloCeldas = new Room("Pasillo donde se encuentan las celdas");
-        celdaVacia = new Room("Celda vacia enfrente de la tuya");
+        celdaVacia1 = new Room("Celda vacia enfrente de la tuya");
+        celdaVacia2 = new Room("Celda de tu compañero, esta vacia");
         pasilloExterior = new Room("Pasillo exterior separado de las celdas");
         comedorReclusos = new Room("Comedor de reclusos");
         enfermeria = new Room("Enfermeria de la prision");
@@ -36,17 +37,17 @@ public class Game
         salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
         
         // initialise room exits
-        inicio.setExits(null, pasilloCeldas, null, null);
-        pasilloCeldas.setExits(pasilloExterior, celdaVacia, patioReclusos, inicio);
-        celdaVacia.setExits(null, null, null, pasilloCeldas);
-        pasilloExterior.setExits(comedorReclusos, null, null, enfermeria);
-        comedorReclusos.setExits(null, null, pasilloExterior, null);
-        enfermeria.setExits(null, pasilloExterior, ventanaAbierta, null);
-        ventanaAbierta.setExits(enfermeria, null, salidaEnfermeria, null);
-        salidaEnfermeria.setExits(null, null, null, null);
-        patioReclusos.setExits(pasilloCeldas, tunelPatio, null, null);
-        tunelPatio.setExits(null, salidaPatio, null, patioReclusos);
-        salidaPatio.setExits(null, null, null, null);
+        inicio.setExits(null, pasilloCeldas, null, null,null);
+        pasilloCeldas.setExits(pasilloExterior, celdaVacia1, patioReclusos, inicio,celdaVacia2);
+        celdaVacia1.setExits(null, null, null, pasilloCeldas,null);
+        pasilloExterior.setExits(comedorReclusos, null, null, enfermeria,null);
+        comedorReclusos.setExits(null, null, pasilloExterior, null,null);
+        enfermeria.setExits(null, pasilloExterior, ventanaAbierta, null,null);
+        ventanaAbierta.setExits(enfermeria, null, salidaEnfermeria, null,null);
+        salidaEnfermeria.setExits(null, null, null, null,null);
+        patioReclusos.setExits(pasilloCeldas, tunelPatio, null, null,null);
+        tunelPatio.setExits(null, salidaPatio, null, patioReclusos,null);
+        salidaPatio.setExits(null, null, null, null,null);
 
         currentRoom = inicio;  // casilla de salida
     }
@@ -97,6 +98,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.surEsteExit != null) {
+            System.out.print("sureste ");
         }
         System.out.println();
     }
@@ -172,6 +176,9 @@ public class Game
         }
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
+        }
+        if(direction.equals("sureste")) {
+            nextRoom = currentRoom.surEsteExit;
         }
 
         if (nextRoom == null) {
