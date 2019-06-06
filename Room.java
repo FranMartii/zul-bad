@@ -3,7 +3,7 @@ public class Room
 {
     private String description;
     private HashMap<String,Room> salidas;
-    
+
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -54,4 +54,13 @@ public class Room
         return description;
     }
 
+    /**
+    * Devuelve un texto con la descripcion larga de la habitacion del tipo:
+    *     You are in the 'name of room'
+    *     Exits: north west southwest
+    * @return Una descripcion de la habitacion incluyendo sus salidas
+    */
+    public String getLongDescription(){
+        return "You are " + description + "\n" +  getExitString();
+    }
 }
