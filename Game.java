@@ -122,12 +122,11 @@ public class Game
             look();
         }
         else if (commandWord.equals("eat")) {
-             System.out.println("You have eaten now and you are not hungry any more");
+            System.out.println("You have eaten now and you are not hungry any more");
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
-        
 
         return wantToQuit;
     }
@@ -146,10 +145,10 @@ public class Game
     private void printHelp() 
     {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("around at the prision.");
         System.out.println();
         System.out.println("Your command words are:");
-        System.out.println("   go quit help");
+        parser.showCommands();
     }
 
     /** 
