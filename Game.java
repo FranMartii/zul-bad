@@ -3,7 +3,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-        
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -21,7 +21,7 @@ public class Game
         Room inicio, pasilloCeldas, celdaVacia1,celdaVacia2, pasilloExterior, 
         comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
         patioReclusos,tunelPatio,salidaPatio;
-      
+
         // create the rooms
         inicio = new Room("Tu celda de la prision");
         pasilloCeldas = new Room("Pasillo donde se encuentan las celdas");
@@ -35,9 +35,9 @@ public class Game
         patioReclusos = new Room("Patio exterior de los reclusos");
         tunelPatio = new Room("Tunel escondido para escapar de la prision");
         salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
-        
+
         // initialise room exits
-        
+
         inicio.setExits("east", pasilloCeldas);
         pasilloCeldas.setExits("north",pasilloExterior);
         pasilloCeldas.setExits("east",celdaVacia1);
@@ -69,7 +69,7 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-                
+
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -90,7 +90,7 @@ public class Game
         System.out.println();
         printLocationInfo();
     }
-    
+
     private void printLocationInfo() 
     {
         System.out.println(currentRoom.getLongDescription());
@@ -118,11 +118,18 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if (commandWord.equals("look")) {	
+            look();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
 
         return wantToQuit;
+    }
+
+    private void look() {	
+        System.out.println(currentRoom.getLongDescription());
     }
 
     // implementations of user commands:
