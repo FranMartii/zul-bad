@@ -1,19 +1,3 @@
-/**
- *  This class is the main class of the "World of Zuul" application. 
- *  "World of Zuul" is a very simple, text based adventure game.  Users 
- *  can walk around some scenery. That's all. It should really be extended 
- *  to make it more interesting!
- * 
- *  To play this game, create an instance of this class and call the "play"
- *  method.
- * 
- *  This main class creates and initialises all the others: it creates all
- *  rooms, creates the parser and starts the game.  It also evaluates and
- *  executes the commands that the parser returns.
- * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
- */
 
 public class Game 
 {
@@ -34,23 +18,37 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room inicio, pasilloCeldas, celdaVacia, pasilloExterior, 
+        comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
+        patioReclusos,tunelPatio,salidaPatio;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        inicio = new Room("Tu celda de la prision");
+        pasilloCeldas = new Room("Pasillo donde se encuentan las celdas");
+        celdaVacia = new Room("Celda vacia enfrente de la tuya");
+        pasilloExterior = new Room("Pasillo exterior separado de las celdas");
+        comedorReclusos = new Room("Comedor de reclusos");
+        enfermeria = new Room("Enfermeria de la prision");
+        ventanaAbierta = new Room("Saliente de ventana de la enfermeria");
+        salidaEnfermeria = new Room("Salida de la prision por la enfermeria");
+        patioReclusos = new Room("Patio exterior de los reclusos");
+        tunelPatio = new Room("Tunel escondido para escapar de la prision");
+        salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
         
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        inicio.setExits(null, pasilloCeldas, null, null);
+        pasilloCeldas.setExits(pasilloExterior, celdaVacia, patioReclusos, inicio);
+        celdaVacia.setExits(null, null, null, pasilloCeldas);
+        pasilloExterior.setExits(comedorReclusos, null, null, enfermeria);
+        comedorReclusos.setExits(null, null, pasilloExterior, null);
+        enfermeria.setExits(null, pasilloExterior, ventanaAbierta, null);
+        ventanaAbierta.setExits(enfermeria, null, salidaEnfermeria, null);
+        salidaEnfermeria.setExits(null, null, null, null);
+        patioReclusos.setExits(pasilloCeldas, tunelPatio, null, null);
+        tunelPatio.setExits(null, salidaPatio, null, patioReclusos);
+        salidaPatio.setExits(null, null, null, null);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = inicio;  // casilla de salida
     }
 
     /**
