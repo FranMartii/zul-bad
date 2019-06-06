@@ -1,26 +1,8 @@
-/**
- * Class Room - a room in an adventure game.
- *
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.  
- *
- * A "Room" represents one location in the scenery of the game.  It is 
- * connected to other rooms via exits.  The exits are labelled north, 
- * east, south, west.  For each direction, the room stores a reference
- * to the neighboring room, or null if there is no exit in that direction.
- * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
- */
+import java.util.*;
 public class Room 
 {
     private String description;
-    private Room northExit;
-    private Room southExit;
-    private Room eastExit;
-    private Room westExit;
-    private Room surEsteExit;
-    private Room norOesteExit;
+    private HashMap<String,Room> salidas;
     
     /**
      * Create a room described "description". Initially, it has
@@ -44,38 +26,38 @@ public class Room
     public void setExits(Room north, Room east, Room south, Room west,Room surEste,Room norOeste) 
     {
         if(north != null)
-            northExit = north;
+            salidas.put("north", north);
         if(east != null)
-            eastExit = east;
+            salidas.put("east", east);
         if(south != null)
-            southExit = south;
+            salidas.put("south", south);
         if(west != null)
-            westExit = west;
+            salidas.put("west", west);
         if(surEste != null)
-            surEsteExit = surEste;
+            salidas.put("surEste", surEste);
         if(norOeste != null)
-            norOesteExit = norOeste;
+            salidas.put("norOeste", norOeste);
     }
 
     public Room getExit(String descripccion){
         Room salida = null;
         if(descripccion.equals("north")){
-            salida = northExit;
+            salida = salidas.get("north");
         }
         if(descripccion.equals("south")){
-            salida = southExit;
+            salida = salidas.get("south");
         }
         if(descripccion.equals("east")){
-            salida = eastExit;
+            salida = salidas.get("east");
         }
         if(descripccion.equals("west")){
-            salida = westExit;
+            salida = salidas.get("west");
         }
         if(descripccion.equals("sureste")){
-            salida = surEsteExit;
+            salida = salidas.get("sureste");
         }
         if(descripccion.equals("noroeste")){
-            salida = norOesteExit;
+            salida = salidas.get("noroeste");
         }
         return salida;
     }
@@ -88,22 +70,22 @@ public class Room
      */
     public String getExitString(){
         String salidasExistentes = "Exits: ";
-        if(northExit != null) {
+        if(salidas.get("north") != null) {
             salidasExistentes += "north ";
         }
-        if(eastExit != null) {
+        if(salidas.get("east") != null) {
             salidasExistentes += "east ";
         }
-        if(southExit != null) {
+        if(salidas.get("south") != null) {
             salidasExistentes += "south ";
         }
-        if(westExit != null) {
+        if(salidas.get("west") != null) {
             salidasExistentes += "west ";
         }
-        if(surEsteExit != null) {
+        if(salidas.get("sureste") != null) {
             salidasExistentes += "sureste ";
         }
-        if(surEsteExit != null) {
+        if(salidas.get("noroeste") != null) {
             salidasExistentes += "noroeste ";
         }
         return salidasExistentes;
