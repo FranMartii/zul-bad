@@ -2,6 +2,7 @@ import java.util.*;
 public class Room 
 {
     private String description;
+    private Item itemActual;
     private HashMap<String,Room> salidas;
 
     /**
@@ -10,23 +11,19 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description,Item item) 
     {
         this.description = description;
+        this.itemActual = item;
         salidas = new HashMap<>();
     }
 
-    /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
-     */
-    public void setExits(String direccion,Room neighbor) 
-    {
-        salidas.put(direccion, neighbor);
+    private Item getItem(){
+        return itemActual;
+    }
+
+    public void setExits(String direccion,Room sala){
+        salidas.put(direccion, sala);
     }
 
     public Room getExit(String descripcion){
@@ -55,12 +52,18 @@ public class Room
     }
 
     /**
-    * Devuelve un texto con la descripcion larga de la habitacion del tipo:
-    *     You are in the 'name of room'
-    *     Exits: north west southwest
-    * @return Una descripcion de la habitacion incluyendo sus salidas
-    */
+     * Devuelve un texto con la descripcion larga de la habitacion del tipo:
+     *     You are in the 'name of room'
+     *     Exits: north west southwest
+     * @return Una descripcion de la habitacion incluyendo sus salidas
+     */
     public String getLongDescription(){
-        return "You are " + description + "\n" +  getExitString();
+        String infoItem = "";
+        if(itemActual != null){
+            infoItem = itemActual.getInfoItem();
+        }
+        return "You are " + description + "\n\n"
+        + "Items: \n" + infoItem
+        +  getExitString();
     }
 }
