@@ -2,8 +2,8 @@ import java.util.*;
 public class Room 
 {
     private String description;
-    private Item itemActual;
     private HashMap<String,Room> salidas;
+    private HashMap<String,Item> coleccionItems;
 
     /**
      * Create a room described "description". Initially, it has
@@ -11,17 +11,28 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description,Item item) 
-    {
+    public Room(String description){
         this.description = description;
-        this.itemActual = item;
         salidas = new HashMap<>();
+        coleccionItems = new HashMap<>();
+    }
+    
+    public void addItem(String nombre,Item item){
+        coleccionItems.put(nombre,item);
+    }
+    
+    public Item getItem(String nombre){
+        return coleccionItems.get(nombre);
     }
 
-    private Item getItem(){
-        return itemActual;
+    public String getItemString(){
+        String infoItems = "Items: \n";
+        for(String i : coleccionItems.keySet()){
+            infoItems += i + coleccionItems.get(i).getInfoItem() + "\n";
+        }       
+        return infoItems;
     }
-
+    
     public void setExits(String direccion,Room sala){
         salidas.put(direccion, sala);
     }
@@ -58,12 +69,8 @@ public class Room
      * @return Una descripcion de la habitacion incluyendo sus salidas
      */
     public String getLongDescription(){
-        String infoItem = "";
-        if(itemActual != null){
-            infoItem = itemActual.getInfoItem();
-        }
         return "You are " + description + "\n\n"
-        + "Items: \n" + infoItem
-        +  getExitString();
+        + getItemString()
+        + getExitString();
     }
 }

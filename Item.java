@@ -12,7 +12,7 @@ public class Item
     }
 
     public String getInfoItem(){
-        return nombre + "(Vida: " + vida 
+        return "(Vida: " + vida 
         + " Peso: " + peso + ")\n";
     }
 

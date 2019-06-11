@@ -27,19 +27,24 @@ public class Game
         comida = new Item("Comida",2,25);
 
         // create the rooms
-        inicio = new Room("Tu celda de la prision",null);
-        pasilloCeldas = new Room("Pasillo donde se encuentan las celdas",null);
-        celdaVacia1 = new Room("Celda vacia enfrente de la tuya",null);
-        celdaVacia2 = new Room("Celda de tu compañero, esta vacia",null);
-        pasilloExterior = new Room("Pasillo exterior separado de las celdas",null);
-        comedorReclusos = new Room("Comedor de reclusos",comida);
-        enfermeria = new Room("Enfermeria de la prision",medicamentos);
-        ventanaAbierta = new Room("Saliente de ventana de la enfermeria",null);
-        salidaEnfermeria = new Room("Salida de la prision por la enfermeria",null);
-        patioReclusos = new Room("Patio exterior de los reclusos",null);
-        tunelPatio = new Room("Tunel escondido para escapar de la prision",null);
-        salidaPatio = new Room("Salida de la prision a traves del tunel del patio",null);
+        inicio = new Room("Tu celda de la prision");
+        pasilloCeldas = new Room("Pasillo donde se encuentan las celdas");
+        celdaVacia1 = new Room("Celda vacia enfrente de la tuya");
+        celdaVacia2 = new Room("Celda de tu compañero, esta vacia");
+        pasilloExterior = new Room("Pasillo exterior separado de las celdas");
+        comedorReclusos = new Room("Comedor de reclusos");
+        enfermeria = new Room("Enfermeria de la prision");
+        ventanaAbierta = new Room("Saliente de ventana de la enfermeria");
+        salidaEnfermeria = new Room("Salida de la prision por la enfermeria");
+        patioReclusos = new Room("Patio exterior de los reclusos");
+        tunelPatio = new Room("Tunel escondido para escapar de la prision");
+        salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
 
+        // initialise room items
+        
+        comedorReclusos.addItem("Comida",comida);
+        enfermeria.addItem("Medicamentos",medicamentos);
+        
         // initialise room exits
 
         inicio.setExits("east", pasilloCeldas);
