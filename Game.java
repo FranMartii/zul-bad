@@ -1,9 +1,9 @@
-
+import java.util.*;
 public class Game 
 {
     private Parser parser;
     private Room currentRoom;
-    private Room salaAnterior;
+    private Stack<Room> stackSalas;
 
     /**
      * Create the game and initialise its internal map.
@@ -12,7 +12,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
-        salaAnterior = null;
+        stackSalas = new Stack();
     }
 
     /**
@@ -181,13 +181,12 @@ public class Game
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
-        
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            salaAnterior = currentRoom;
+            stackSalas.addElement(currentRoom);
             currentRoom = nextRoom;   
             printLocationInfo();
         }
@@ -195,9 +194,8 @@ public class Game
     
     private void goBack() 
     {
-        if(salaAnterior != null){            
-            currentRoom = salaAnterior;
-            salaAnterior = null;
+        if(!stackSalas.empty()){             
+            currentRoom = stackSalas.pop();
             printLocationInfo();
         }
         else{
