@@ -64,14 +64,19 @@ public class Player
     public void take(Command command) {
         String item = command.getSecondWord();
         if(currentRoom.getItem(item) != null){
-            if(pesoMochila < pesoMax){            
-                mochila.put(item,currentRoom.getItem(item));
-                currentRoom.eliminarItem(item);
-                pesoMochila += mochila.get(item).getPeso();
-                System.out.println("Peso: (" + pesoMochila + "/" + pesoMax + ")\n");
+            if(currentRoom.getItem(item).getRecogible()){
+                if(pesoMochila < pesoMax){            
+                    mochila.put(item,currentRoom.getItem(item));
+                    currentRoom.eliminarItem(item);
+                    pesoMochila += mochila.get(item).getPeso();
+                    System.out.println("Peso: (" + pesoMochila + "/" + pesoMax + ")\n");
+                }
+                else{
+                    System.out.println("Peso excedido, no puedes cargar mas objetos. Tira alguno primero.\n");
+                }
             }
             else{
-                System.out.println("Peso excedido, no puedes cargar mas objetos. Tira alguno primero.\n");
+                System.out.println("El item seleccionado no se puede recoger");
             }
         }
         else{
@@ -91,5 +96,22 @@ public class Player
 
     public void getItems(){
         System.out.println(currentRoom.getItemString());
+    }
+
+    public void equipar(Command command){
+        String item = command.getSecondWord();
+        if(mochila.get(item) != null){
+            if(mochila.get(item).getEquipable()){
+                pesoMax += mochila.get(item).getAumentoCarga();
+                mochila.remove(item);
+                System.out.println("Peso: (" + pesoMochila + "/" + pesoMax + ")\n");
+            }
+            else{
+                System.out.println("El item seleccionado no es equipable");
+            }
+        }
+        else{
+            System.out.println("No se encuentra el item indicado");
+        }
     }
 }

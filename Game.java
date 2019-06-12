@@ -16,15 +16,15 @@ public class Game
      * Create all the rooms and link their exits together.
      */
     private Room createRooms(){
-        Room inicio, pasilloCeldas, celdaVacia1,celdaVacia2, pasilloExterior, 
-        comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
-        patioReclusos,tunelPatio,salidaPatio;
+        Room inicio, pasilloCeldas, celdaVacia1,celdaVacia2, pasilloExterior,vestuarioGuardias, 
+        comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,patioReclusos,tunelPatio,salidaPatio;
 
-        Item medicamentos,comida,itemInutil,itemPesado;
-        medicamentos = new Item("Medicamentos",5,50,true);
-        comida = new Item("Comida",2,25,true);
-        itemInutil = new Item("Inutil",10,0,false);
-        itemPesado = new Item("Pesas",50,0,false);
+        Item mochila,medicamentos,comida,itemInutil,itemPesado;
+        mochila = new Item("Mochila",1,50,true,true);
+        medicamentos = new Item("Medicamentos",5,10,true,false);
+        comida = new Item("Comida",2,5,true,false);
+        itemInutil = new Item("Inutil",10,0,false,false);
+        itemPesado = new Item("Pesas",50,0,false,false);
 
         // create the rooms
         inicio = new Room("Tu celda de la prision");
@@ -32,6 +32,7 @@ public class Game
         celdaVacia1 = new Room("Celda vacia enfrente de la tuya");
         celdaVacia2 = new Room("Celda de tu compañero, esta vacia");
         pasilloExterior = new Room("Pasillo exterior separado de las celdas");
+        vestuarioGuardias = new Room("Vestuario de los guardias de la prision");
         comedorReclusos = new Room("Comedor de reclusos");
         enfermeria = new Room("Enfermeria de la prision");
         ventanaAbierta = new Room("Saliente de ventana de la enfermeria");
@@ -46,6 +47,7 @@ public class Game
         enfermeria.addItem("Medicamentos",medicamentos);
         pasilloCeldas.addItem("Inutil",itemInutil);
         patioReclusos.addItem("Pesas",itemPesado);
+        vestuarioGuardias.addItem("Mochila",mochila);
 
         // initialise room exits
 
@@ -58,6 +60,7 @@ public class Game
         celdaVacia1.setExits("west", pasilloCeldas);
         pasilloExterior.setExits("north",comedorReclusos);
         pasilloExterior.setExits("west",enfermeria);
+        pasilloExterior.setExits("east",vestuarioGuardias);
         comedorReclusos.setExits("south", pasilloExterior);
         enfermeria.setExits("east",pasilloExterior);
         enfermeria.setExits("south", ventanaAbierta);
@@ -144,6 +147,9 @@ public class Game
         }
         else if (commandWord.equals("items")) {
             player.getItems();
+        }
+        else if (commandWord.equals("equipar")) {
+            player.equipar(command);
         }
         return wantToQuit;
     } 
