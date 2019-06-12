@@ -2,31 +2,29 @@ import java.util.*;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-    private Stack<Room> stackSalas;
-
+    private Player player;
+   
     /**
      * Create the game and initialise its internal map.
      */
-    public Game() 
-    {
-        createRooms();
-        parser = new Parser();
-        stackSalas = new Stack();
+    public Game(){
+        player = new Player(createRooms());
+        parser = new Parser(); 
     }
 
     /**
      * Create all the rooms and link their exits together.
      */
-    private void createRooms()
-    {
+    private Room createRooms(){
         Room inicio, pasilloCeldas, celdaVacia1,celdaVacia2, pasilloExterior, 
         comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
         patioReclusos,tunelPatio,salidaPatio;
-        
-        Item medicamentos,comida;
-        medicamentos = new Item("Medicamentos",5,50);
-        comida = new Item("Comida",2,25);
+
+        Item medicamentos,comida,itemInutil,itemPesado;
+        medicamentos = new Item("Medicamentos",5,50,true);
+        comida = new Item("Comida",2,25,true);
+        itemInutil = new Item("Inutil",10,0,false);
+        itemPesado = new Item("Pesas",50,0,false);
 
         // create the rooms
         inicio = new Room("Tu celda de la prision");
@@ -43,10 +41,12 @@ public class Game
         salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
 
         // initialise room items
-        
+
         comedorReclusos.addItem("Comida",comida);
         enfermeria.addItem("Medicamentos",medicamentos);
-        
+        pasilloCeldas.addItem("Inutil",itemInutil);
+        patioReclusos.addItem("Pesas",itemPesado);
+
         // initialise room exits
 
         inicio.setExits("east", pasilloCeldas);
@@ -67,8 +67,9 @@ public class Game
         patioReclusos.setExits("east", tunelPatio);
         tunelPatio.setExits("east",salidaPatio);
         tunelPatio.setExits("west", patioReclusos);
+        // casilla de salida
 
-        currentRoom = inicio;  // casilla de salida
+        return inicio;
     } 
 
     /**
@@ -99,13 +100,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
-    }
-
-    private void printLocationInfo() 
-    {
-        System.out.println(currentRoom.getLongDescription());
-        System.out.println();
+        player.look();
     }
 
     /**
@@ -127,27 +122,31 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            player.goRoom(command);            
         }
         else if (commandWord.equals("look")) {  
-            look();
+            player.look();
         }
         else if (commandWord.equals("eat")) {
-            System.out.println("You have eaten now and you are not hungry any more");
+            player.eat();
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
         else if (commandWord.equals("back")) {
-            goBack();
+            player.goBack();            
         }
-
+        else if (commandWord.equals("take")) {
+            player.take(command);
+        }
+        else if (commandWord.equals("drop")) {
+            player.drop(command);
+        }
+        else if (commandWord.equals("items")) {
+            player.getItems();
+        }
         return wantToQuit;
-    }
-
-    private void look() {   
-        System.out.println(currentRoom.getLongDescription());
-    }
+    } 
 
     // implementations of user commands:
 
@@ -165,44 +164,6 @@ public class Game
         System.out.println(parser.showCommands());
     }
 
-    /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            stackSalas.addElement(currentRoom);
-            currentRoom = nextRoom;   
-            printLocationInfo();
-        }
-    }
-    
-    private void goBack() 
-    {
-        if(!stackSalas.empty()){             
-            currentRoom = stackSalas.pop();
-            printLocationInfo();
-        }
-        else{
-            System.out.println("No hay salas antes de esta"); 
-            printLocationInfo();
-        }
-    }
 
     /** 
      * "Quit" was entered. Check the rest of the command to see
