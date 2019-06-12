@@ -21,10 +21,14 @@ public class Room
         coleccionItems.put(nombre,item);
     }
     
-    public Item getItem(String nombre){
-        return coleccionItems.get(nombre);
+    public void eliminarItem(String nombre){
+        coleccionItems.remove(nombre);
     }
-
+    
+    public Item getItem(String item){
+        return coleccionItems.get(item);
+    }
+    
     public String getItemString(){
         String infoItems = "Items: \n";
         for(String i : coleccionItems.keySet()){
@@ -73,4 +77,6 @@ public class Room
         + getItemString()
         + getExitString();
     }
+    
+    
 }

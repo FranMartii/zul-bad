@@ -4,6 +4,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack<Room> stackSalas;
+    private HashMap<String,Item> mochila;
+    private int pesoMochila;
+    private static int PESOMAX = 10;
 
     /**
      * Create the game and initialise its internal map.
@@ -13,6 +16,8 @@ public class Game
         createRooms();
         parser = new Parser();
         stackSalas = new Stack();
+        mochila = new HashMap<>();
+        pesoMochila = 0;
     }
 
     /**
@@ -23,10 +28,11 @@ public class Game
         Room inicio, pasilloCeldas, celdaVacia1,celdaVacia2, pasilloExterior, 
         comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
         patioReclusos,tunelPatio,salidaPatio;
-        
-        Item medicamentos,comida;
+
+        Item medicamentos,comida,itemInutil;
         medicamentos = new Item("Medicamentos",5,50);
         comida = new Item("Comida",2,25);
+        itemInutil = new Item("Inutil",10,0);
 
         // create the rooms
         inicio = new Room("Tu celda de la prision");
@@ -43,10 +49,11 @@ public class Game
         salidaPatio = new Room("Salida de la prision a traves del tunel del patio");
 
         // initialise room items
-        
+
         comedorReclusos.addItem("Comida",comida);
         enfermeria.addItem("Medicamentos",medicamentos);
-        
+        pasilloCeldas.addItem("Inutil",itemInutil);
+
         // initialise room exits
 
         inicio.setExits("east", pasilloCeldas);
@@ -141,12 +148,52 @@ public class Game
         else if (commandWord.equals("back")) {
             goBack();
         }
-
+        else if (commandWord.equals("take")) {
+            take(command);
+        }
+        else if (commandWord.equals("drop")) {
+            drop(command);
+        }
+        else if (commandWord.equals("items")) {
+            getItems();
+        }
         return wantToQuit;
     }
 
+    //comandos
+
     private void look() {   
         System.out.println(currentRoom.getLongDescription());
+    }
+
+    private void take(Command command) {
+        String item = command.getSecondWord();
+        if(currentRoom.getItem(item) != null){
+            if(pesoMochila < PESOMAX){            
+                mochila.put(item,currentRoom.getItem(item));
+                currentRoom.eliminarItem(item);
+                pesoMochila += mochila.get(item).getPeso();
+                System.out.println("Peso: (" + pesoMochila + "/" + PESOMAX + ")\n");
+            }
+            else{
+                System.out.println("Peso excedido, no puedes cargar mas objetos. Tira alguno primero.\n");
+            }
+        }
+        else{
+            System.out.println("No se encontraron items con ese nombre");
+        }
+    }
+
+    private void drop(Command command) {  
+        String item = command.getSecondWord();
+        pesoMochila -= mochila.get(item).getPeso();
+        currentRoom.addItem(item,mochila.get(item));
+        mochila.remove(item); 
+        System.out.println("Peso: (" + pesoMochila + "/" + PESOMAX + ")\n");
+    }
+
+    private void getItems(){
+        System.out.println(currentRoom.getItemString());
     }
 
     // implementations of user commands:
@@ -191,7 +238,7 @@ public class Game
             printLocationInfo();
         }
     }
-    
+
     private void goBack() 
     {
         if(!stackSalas.empty()){             

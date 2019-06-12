@@ -3,16 +3,20 @@ public class Item
 {
     private String nombre;
     private int peso;
-    private int vida;
+    private int vidaQueRecupera;
 
-    public Item(String nombre,int peso, int vida){
+    public Item(String nombre,int peso, int vidaQueRecupera){
         this.nombre = nombre;
         this.peso = peso;
-        this.vida = vida;       
+        this.vidaQueRecupera = vidaQueRecupera;       
+    }
+    
+    public int getPeso(){
+        return peso;
     }
 
     public String getInfoItem(){
-        return "(Vida: " + vida 
+        return "(Vida: " + vidaQueRecupera 
         + " Peso: " + peso + ")\n";
     }
 
