@@ -21,6 +21,10 @@ public class Room
         coleccionItems.put(nombre,item);
     }
     
+    public void eliminarItem(String nombre){
+        coleccionItems.remove(nombre);
+    }
+    
     public Item getItem(String nombre){
         return coleccionItems.get(nombre);
     }
