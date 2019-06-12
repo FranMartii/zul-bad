@@ -29,10 +29,11 @@ public class Game
         comedorReclusos,enfermeria,ventanaAbierta,salidaEnfermeria,
         patioReclusos,tunelPatio,salidaPatio;
 
-        Item medicamentos,comida,itemInutil;
-        medicamentos = new Item("Medicamentos",5,50);
-        comida = new Item("Comida",2,25);
-        itemInutil = new Item("Inutil",10,0);
+        Item medicamentos,comida,itemInutil,itemPesado;
+        medicamentos = new Item("Medicamentos",5,50,true);
+        comida = new Item("Comida",2,25,true);
+        itemInutil = new Item("Inutil",10,0,false);
+        itemPesado = new Item("Pesas",50,0,false);
 
         // create the rooms
         inicio = new Room("Tu celda de la prision");
@@ -53,6 +54,7 @@ public class Game
         comedorReclusos.addItem("Comida",comida);
         enfermeria.addItem("Medicamentos",medicamentos);
         pasilloCeldas.addItem("Inutil",itemInutil);
+        patioReclusos.addItem("Pesas",itemPesado);
 
         // initialise room exits
 

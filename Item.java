@@ -5,7 +5,7 @@ public class Item
     private int peso;
     private int vidaQueRecupera;
 
-    public Item(String nombre,int peso, int vidaQueRecupera){
+    public Item(String nombre,int peso, int vidaQueRecupera,boolean canBePicked){
         this.nombre = nombre;
         this.peso = peso;
         this.vidaQueRecupera = vidaQueRecupera;       
